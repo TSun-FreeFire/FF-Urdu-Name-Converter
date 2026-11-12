@@ -143,15 +143,6 @@ footer{text-align:center;padding:44px 0 6px}
   margin:0 0 16px;white-space:pre;text-align:left}
 .fineprint{color:var(--sub2);font-size:13px;margin:0}
 
-/* sticky copy (mobile) */
-.sticky-copy{display:none}
-@media(max-width:640px){
-  .sticky-copy{display:block;position:fixed;left:16px;right:16px;bottom:calc(14px + env(safe-area-inset-bottom));z-index:60;
-    background:linear-gradient(180deg,#f4bc77,#dd8a3e);color:var(--accent-ink);border:0;border-radius:999px;padding:16px;
-    font:inherit;font-weight:800;font-size:16.5px;box-shadow:0 14px 34px rgba(0,0,0,.55);cursor:pointer}
-  body{padding-bottom:78px}
-}
-
 /* ── Android / small-screen scale ─────────────────────────────── */
 @media (max-width: 640px){
   .nav-inner{padding:11px 14px}

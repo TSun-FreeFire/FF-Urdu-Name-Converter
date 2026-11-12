@@ -210,7 +210,6 @@
     setTimeout(() => { btn.textContent = label; }, 1600);
   }
   $('#copyBtn').addEventListener('click', (e) => copyOutput(e.currentTarget));
-  $('#stickyCopy').addEventListener('click', (e) => copyOutput(e.currentTarget));
 
   convert();
 })();
