@@ -99,7 +99,9 @@ Content-Type: application/json
 │   ├── index.html
 │   ├── styles.css
 │   ├── app.js
-│   └── preview.png        # comparison image used above
+│   ├── preview.png        # comparison image used above
+│   ├── og.png             # 1200x630 link-preview image (Open Graph)
+│   └── favicon.svg        # black FF favicon
 ├── test/convert.test.js   # node:test suite incl. verified sample names
 ├── tools/generate-forms.py# regenerates lib/forms.json from unicodedata
 ├── ecosystem.config.js    # PM2 process file
