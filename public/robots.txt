@@ -1,0 +1,27 @@
+# FF Urdu Name — everyone welcome, including AI search crawlers.
+User-agent: *
+Allow: /
+
+# AI search / assistant crawlers (explicitly allowed)
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+Sitemap: https://ffurduname.tsunstudio.cyou/sitemap.xml

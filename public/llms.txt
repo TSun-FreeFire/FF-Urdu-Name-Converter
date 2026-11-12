@@ -1,0 +1,21 @@
+# FF Urdu Name — Urdu Nickname Converter for Free Fire
+
+> FF Urdu Name (by TSun Studio) is a free web tool that converts a normally typed Urdu name into a Free Fire nickname whose Arabic-script letters are properly joined.
+
+## What it does
+
+Free Fire renders nicknames left-to-right and does not shape Urdu/Arabic script, so a pasted Urdu name appears reversed with every letter split apart. This converter shapes each letter into its correct joining form (initial, medial, final or isolated), stores the name in the visual order the game draws, and joins words with the hidden filler character U+FFA0 that Free Fire accepts as a space. The result is a ready-to-paste nickname of at most 12 characters, the Free Fire limit.
+
+## Key facts
+
+- URL: https://ffurduname.tsunstudio.cyou/
+- Cost: free, no sign-up
+- Input: any Urdu name typed normally (RTL)
+- Output: the same name with properly joined letters, in Free Fire visual order, max 12 characters
+- Includes a letter-by-letter breakdown showing the form each letter takes
+- Also offers a JSON API: POST /api/convert with {"text": "..."} returns the converted nickname, character count, limit and warnings
+- Made by TSun Studio; not affiliated with Garena (Free Fire is a trademark of Garena)
+
+## Who it is for
+
+Free Fire players in Pakistan and India who want their in-game name in Urdu script.
