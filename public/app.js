@@ -15,8 +15,8 @@ let lastOutput = '';
 let debounce = null;
 
 const MODE_HINTS = {
-  urdu: 'Original Urdu letters (ہ، ھ، ک) in their joined forms.',
-  safe: 'Urdu-only letters swapped for plain Arabic ones — use this if any letter shows as a box □ in the game.',
+  urdu: 'Original Urdu letters in their joined forms.',
+  safe: 'Urdu-only letters swapped for plain Arabic ones — use this if any letter shows as a box in the game.',
 };
 
 function segmented(id, cb) {
@@ -30,10 +30,6 @@ function segmented(id, cb) {
 }
 segmented('#modeSeg', (v) => { mode = v; modeHint.textContent = MODE_HINTS[v]; schedule(); });
 segmented('#sepSeg', (v) => { separator = v; schedule(); });
-
-document.querySelectorAll('.chip').forEach((chip) =>
-  chip.addEventListener('click', () => { input.value = chip.textContent.trim(); schedule(); input.focus(); })
-);
 input.addEventListener('input', schedule);
 
 function schedule() {
@@ -53,13 +49,21 @@ async function convert() {
     render(await res.json());
   } catch {
     rawOutput.textContent = 'Converter is unreachable — check your connection and reload.';
+    rawOutput.classList.remove('empty');
   }
 }
 
 /* Draw the name the way FF does: strictly left-to-right, one glyph at a
    time, no right-to-left reordering and no re-shaping by the browser. */
-function fillGamePreview(el, output) {
+function fillGamePreview(el, output, placeholder) {
   el.innerHTML = '';
+  if (!output) {
+    const span = document.createElement('span');
+    span.className = 'placeholder';
+    span.textContent = placeholder;
+    el.appendChild(span);
+    return;
+  }
   for (const ch of output) {
     const span = document.createElement('span');
     span.className = 'glyph';
@@ -71,13 +75,19 @@ function fillGamePreview(el, output) {
 
 function render(r) {
   lastOutput = r.output;
-  rawOutput.textContent = r.output || '—';
+  if (r.output) {
+    rawOutput.textContent = r.output;
+    rawOutput.classList.remove('empty');
+  } else {
+    rawOutput.textContent = 'Your converted name will appear here';
+    rawOutput.classList.add('empty');
+  }
 
   countBadge.textContent = `${r.charCount} / ${r.limit}`;
   countBadge.className = 'count-badge ' + (r.overLimit ? 'over' : 'ok');
 
-  fillGamePreview($('#previewWide'), r.output);
-  fillGamePreview($('#previewPhone'), r.output);
+  fillGamePreview($('#previewWide'), r.output, 'Your name here');
+  fillGamePreview($('#previewPhone'), r.output, 'Your name');
 
   warningsEl.innerHTML = '';
   for (const w of r.warnings) {
@@ -87,6 +97,13 @@ function render(r) {
   }
 
   breakdownEl.innerHTML = '';
+  if (!r.words.length) {
+    const p = document.createElement('p');
+    p.className = 'empty-note';
+    p.textContent = 'Start typing above — the breakdown will appear here.';
+    breakdownEl.appendChild(p);
+    return;
+  }
   for (const word of r.words) {
     const row = document.createElement('div');
     row.className = 'word-row';
@@ -122,7 +139,7 @@ function render(r) {
 }
 
 async function copyOutput(btn) {
-  if (!lastOutput) return;
+  if (!lastOutput) { input.focus(); return; }
   const label = btn.textContent;
   try {
     await navigator.clipboard.writeText(lastOutput);

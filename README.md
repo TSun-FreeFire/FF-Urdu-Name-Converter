@@ -97,7 +97,7 @@ Content-Type: application/json
 ├── lib/
 │   ├── convert.js         # the shaping / reversing engine
 │   └── forms.json         # letter → presentation forms, generated from Unicode data
-├── public/                # Apple-inspired responsive frontend (Android + desktop)
+├── public/                # Dark-chocolate, Apple-rounded responsive frontend (Android + desktop)
 │   ├── index.html
 │   ├── styles.css
 │   └── app.js
