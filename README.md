@@ -48,7 +48,6 @@ The shaped result is then stored in **visual order** (words and letters reversed
 - ✅ Correct joining (initial / medial / final / isolated) for Urdu **and** Arabic letters
 - ✅ **Original Urdu letters**, always — (`ہ`, `ھ`, `ک`) in their joined Forms-A shapes, no settings to fiddle with
 - ✅ Words always joined with the **hidden FF space** (`U+FFA0`) automatically
-- ✅ Live **in-game preview** — an Android phone profile rendered letter-by-letter exactly like the game draws it, right under the input box
 - ✅ **12-character limit** indicator with warnings (over-limit, stripped vowel marks, unsupported letters)
 - ✅ Letter-by-letter breakdown of every form chosen
 - ✅ Zero dependencies — plain Node.js, runs anywhere

@@ -72,7 +72,6 @@
 
 /* ── Converter ──────────────────────────────────────────────────── */
 (function initConverter() {
-  const FILLER = '\uFFA0';
   // Fixed by design: original Urdu letters in their joined forms,
   // words always joined with the hidden FF space.
   const MODE = 'urdu';
@@ -131,26 +130,6 @@
     }
   }
 
-  /* Draw the name the way FF does: strictly left-to-right, one glyph
-     at a time, no RTL reordering and no re-shaping by the browser. */
-  function fillGamePreview(el, output, placeholder) {
-    el.innerHTML = '';
-    if (!output) {
-      const span = document.createElement('span');
-      span.className = 'placeholder';
-      span.textContent = placeholder;
-      el.appendChild(span);
-      return;
-    }
-    for (const ch of output) {
-      const span = document.createElement('span');
-      span.className = 'glyph';
-      if (ch === FILLER || ch === ' ') { span.classList.add('gap'); span.textContent = '\u00A0'; }
-      else span.textContent = ch;
-      el.appendChild(span);
-    }
-  }
-
   function render(r) {
     lastOutput = r.output;
     if (r.output) {
@@ -163,8 +142,6 @@
 
     countBadge.textContent = `${r.charCount} / ${r.limit}`;
     countBadge.className = 'count-badge ' + (r.overLimit ? 'over' : 'ok');
-
-    fillGamePreview($('#previewPhone'), r.output, 'Your name');
 
     warningsEl.innerHTML = '';
     for (const w of r.warnings) {

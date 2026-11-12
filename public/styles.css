@@ -104,28 +104,7 @@ h2{font-size:clamp(25px,4vw,32px);letter-spacing:-.015em;margin:0 0 8px;display:
 .warnings{list-style:none;margin:6px 0 0;padding:0}
 .warnings li{background:rgba(255,196,64,.11);color:#ffd98a;border:1px solid rgba(255,196,64,.25);
   border-radius:14px;padding:10px 14px;font-size:14px;margin-top:9px}
-.preview-note{color:var(--sub2);font-size:13.5px;line-height:1.65;margin:18px 0 0}
 .breakdown-head{border-top:1px solid var(--line);padding-top:24px}
-
-/* phone preview */
-.phone{width:272px;margin:20px auto 2px;background:#0a0401;border:1px solid var(--line);border-radius:42px;
-  padding:11px;box-shadow:0 24px 50px rgba(0,0,0,.55)}
-.phone-screen{background:linear-gradient(180deg,#2b170c,#140905);border-radius:33px;color:var(--ink);
-  padding:26px 18px 22px;text-align:center}
-.phone-head{font-family:var(--mono);font-size:10.5px;letter-spacing:.26em;color:var(--sub2)}
-.phone-avatar{font-size:44px;margin:14px 0 4px}
-.game-name{direction:ltr;font-size:30px;line-height:1.9;color:#fff8ec;white-space:nowrap;overflow:hidden}
-.game-name .glyph{display:inline-block}
-.game-name .gap{width:.55em}
-.game-name .placeholder{font-family:-apple-system,"Segoe UI",Roboto,sans-serif;font-size:18px;color:rgba(249,237,218,.35)}
-.phone-name{text-align:center;font-size:25px}
-.phone-sub{color:var(--sub2);font-size:12.5px}
-.phone-stats{display:flex;justify-content:space-around;margin:19px 0;background:rgba(237,169,88,.08);
-  border:1px solid var(--line);border-radius:18px;padding:12px 4px}
-.phone-stats strong{display:block;font-size:17px}
-.phone-stats span{font-size:11px;color:var(--sub2)}
-.phone-btn{background:linear-gradient(90deg,#eda958,#c85a24);color:#fff;border-radius:14px;padding:11px;
-  font-weight:800;letter-spacing:.12em;font-size:13px;text-shadow:0 1px 2px rgba(0,0,0,.3)}
 
 /* breakdown */
 .word-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;padding:14px 0;border-top:1px solid var(--line)}
