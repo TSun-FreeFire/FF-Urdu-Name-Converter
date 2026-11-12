@@ -14,6 +14,7 @@ Free Fire renders nicknames left-to-right and does not shape Urdu/Arabic script,
 - Output: the same name with properly joined letters, in Free Fire visual order, max 12 characters
 - Includes a letter-by-letter breakdown showing the form each letter takes
 - Also offers a JSON API: POST /api/convert with {"text": "..."} returns the converted nickname, character count, limit and warnings
+- Step-by-step guide: https://ffurduname.tsunstudio.cyou/guide (why Urdu names break in Free Fire, the 12-character limit, rename cards, and how to paste a converted name)
 - Made by TSun Studio; not affiliated with Garena (Free Fire is a trademark of Garena)
 
 ## Who it is for

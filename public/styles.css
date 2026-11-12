@@ -169,3 +169,30 @@ footer p{margin:0;font-size:12.5px;color:var(--grey-2)}
   .counter-note{text-align:left}
   footer{flex-direction:column;gap:6px}
 }
+
+/* ── Guide page ──────────────────────────────────────── */
+.brand-link{text-decoration:none;color:var(--white)}
+.kicker{
+  font-family:var(--mono);font-size:12px;letter-spacing:.22em;
+  text-transform:uppercase;color:var(--grey-2);margin:52px 0 14px;
+}
+.guide-title{
+  margin:0 0 18px;font-size:clamp(2rem,6.4vw,3rem);
+  line-height:1.1;font-weight:800;letter-spacing:-.025em;
+}
+.guide h2{
+  margin:46px 0 14px;padding-top:26px;border-top:1px solid var(--line);
+  font-size:21px;font-weight:700;letter-spacing:-.01em;
+}
+.guide h3{margin:26px 0 8px;font-size:16.5px;font-weight:600}
+.guide p{margin:0 0 14px;color:var(--grey-1);font-size:16px;line-height:1.7;max-width:38em}
+.guide .lede{color:var(--grey-1)}
+.guide ul,.guide ol{margin:0 0 14px;padding-left:22px;color:var(--grey-1);line-height:1.7}
+.guide li{margin-bottom:9px}
+.guide li::marker{color:var(--grey-2);font-family:var(--mono);font-size:13px}
+.guide strong{color:var(--white);font-weight:600}
+.guide a{color:var(--white);text-underline-offset:3px;text-decoration-color:var(--line)}
+.cta-row{margin:26px 0 6px !important}
+.cta-link{display:inline-flex;align-items:center;text-decoration:none !important}
+.guide a.cta-link{color:var(--black)}
+.guide a.cta-link:hover{color:var(--white)}

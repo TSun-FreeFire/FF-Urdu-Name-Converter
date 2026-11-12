@@ -46,7 +46,7 @@ const server = http.createServer((req, res) => {
   }
 
   // static
-  let file = url.pathname === '/' ? '/index.html' : url.pathname;
+  let file = url.pathname === '/' ? '/index.html' : url.pathname === '/guide' ? '/guide.html' : url.pathname;
   file = path.normalize(file).replace(/^(\.\.[\/\\])+/, '');
   const full = path.join(PUBLIC, file);
   if (!full.startsWith(PUBLIC)) { res.writeHead(403); return res.end('Forbidden'); }
