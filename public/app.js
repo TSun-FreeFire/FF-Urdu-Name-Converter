@@ -7,29 +7,14 @@ const rawOutput = $('#rawOutput');
 const countBadge = $('#countBadge');
 const warningsEl = $('#warnings');
 const breakdownEl = $('#breakdown');
-const modeHint = $('#modeHint');
 
-let mode = 'urdu';
-let separator = 'filler';
+// Fixed by design: original Urdu letters in their joined forms,
+// words always joined with the hidden FF space.
+const MODE = 'urdu';
+const SEPARATOR = 'filler';
 let lastOutput = '';
 let debounce = null;
 
-const MODE_HINTS = {
-  urdu: 'Original Urdu letters in their joined forms.',
-  safe: 'Urdu-only letters swapped for plain Arabic ones — use this if any letter shows as a box in the game.',
-};
-
-function segmented(id, cb) {
-  const el = $(id);
-  el.addEventListener('click', (e) => {
-    const btn = e.target.closest('button');
-    if (!btn) return;
-    el.querySelectorAll('button').forEach((b) => b.classList.toggle('active', b === btn));
-    cb(btn.dataset.value);
-  });
-}
-segmented('#modeSeg', (v) => { mode = v; modeHint.textContent = MODE_HINTS[v]; schedule(); });
-segmented('#sepSeg', (v) => { separator = v; schedule(); });
 input.addEventListener('input', schedule);
 
 function schedule() {
@@ -43,7 +28,7 @@ async function convert() {
     const res = await fetch('/api/convert', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ text, mode, separator }),
+      body: JSON.stringify({ text, mode: MODE, separator: SEPARATOR }),
     });
     if (!res.ok) throw new Error('bad response');
     render(await res.json());
@@ -86,7 +71,6 @@ function render(r) {
   countBadge.textContent = `${r.charCount} / ${r.limit}`;
   countBadge.className = 'count-badge ' + (r.overLimit ? 'over' : 'ok');
 
-  fillGamePreview($('#previewWide'), r.output, 'Your name here');
   fillGamePreview($('#previewPhone'), r.output, 'Your name');
 
   warningsEl.innerHTML = '';

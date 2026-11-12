@@ -51,19 +51,8 @@
     </div>
     <ul id="warnings" class="warnings"></ul>
 
-    <!-- Previews: also directly under the input -->
+    <!-- Preview: also directly under the input -->
     <div class="preview-grid">
-      <div class="game-preview">
-        <span class="preview-label">In-game plate — desktop</span>
-        <div class="plate">
-          <div class="plate-avatar">🎮</div>
-          <div class="plate-main">
-            <div class="game-name urdu-font" id="previewWide"></div>
-            <div class="plate-sub">Level 58 · Region PK · Guild TSUN</div>
-          </div>
-          <div class="plate-like">♥ 2,148</div>
-        </div>
-      </div>
       <div class="phone" aria-label="Phone preview">
         <div class="phone-screen">
           <div class="phone-head">PLAYER PROFILE</div>
@@ -79,29 +68,10 @@
         </div>
       </div>
     </div>
-    <p class="preview-note">Previews are drawn letter-by-letter, exactly like Free Fire renders a nickname.
-      Don't retype the result, and don't worry if it looks flipped in some apps — phones shape Urdu
-      right-to-left, the game doesn't. Always trust the game's own preview.</p>
-
-    <div class="controls">
-      <div class="control">
-        <span class="control-label">Letter style</span>
-        <div class="segmented" id="modeSeg" role="group" aria-label="Letter style">
-          <button type="button" data-value="urdu" class="active">Urdu</button>
-          <button type="button" data-value="safe">Safe Arabic</button>
-        </div>
-        <p class="control-hint" id="modeHint">Original Urdu letters in their joined forms.</p>
-      </div>
-      <div class="control">
-        <span class="control-label">Word gap</span>
-        <div class="segmented" id="sepSeg" role="group" aria-label="Word gap">
-          <button type="button" data-value="filler" class="active">FF space</button>
-          <button type="button" data-value="space">Normal</button>
-          <button type="button" data-value="none">None</button>
-        </div>
-        <p class="control-hint">FF space is an invisible filler the game accepts between words.</p>
-      </div>
-    </div>
+    <p class="preview-note">The preview is drawn letter-by-letter, exactly like Free Fire renders a nickname.
+      Words are always joined with the game's hidden FF space, and your name always uses the original
+      Urdu letters in their joined forms. Don't retype the result, and don't worry if it looks flipped
+      in some apps — phones shape Urdu right-to-left, the game doesn't. Always trust the game's own preview.</p>
   </section>
 
   <section class="card breakdown-card">
@@ -138,7 +108,7 @@
     <h2>API</h2>
     <p class="section-sub">The same converter runs on the server — use it from any bot or app.</p>
     <pre class="api-code">POST /api/convert
-{ "text": "&lt;your urdu name&gt;", "mode": "urdu", "separator": "filler" }
+{ "text": "&lt;your urdu name&gt;" }
 
 → { "output": "&lt;converted name&gt;", "charCount": 12, "overLimit": false, … }</pre>
   </section>

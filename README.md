@@ -46,10 +46,9 @@ The shaped result is then stored in **visual order** (words and letters reversed
 ## Features
 
 - ✅ Correct joining (initial / medial / final / isolated) for Urdu **and** Arabic letters
-- ✅ **Urdu mode** — original letters (`ہ`, `ھ`, `ک`) in their joined Forms-A shapes
-- ✅ **Safe mode** — Urdu-only letters swapped for plain Arabic ones (Forms-B), for fonts that would show a box `□`
-- ✅ **FF space** / normal space / no-space word gaps
-- ✅ Live **in-game previews** — desktop nickname plate and Android phone profile, rendered letter-by-letter exactly like the game draws them
+- ✅ **Original Urdu letters**, always — (`ہ`, `ھ`, `ک`) in their joined Forms-A shapes, no settings to fiddle with
+- ✅ Words always joined with the **hidden FF space** (`U+FFA0`) automatically
+- ✅ Live **in-game preview** — an Android phone profile rendered letter-by-letter exactly like the game draws it, right under the input box
 - ✅ **12-character limit** indicator with warnings (over-limit, stripped vowel marks, unsupported letters)
 - ✅ Letter-by-letter breakdown of every form chosen
 - ✅ Zero dependencies — plain Node.js, runs anywhere
@@ -86,8 +85,8 @@ Content-Type: application/json
 }
 ```
 
-- `mode`: `"urdu"` (default) or `"safe"`
-- `separator`: `"filler"` (default, `U+FFA0`), `"space"`, or `"none"`
+- Optional `mode`: `"urdu"` (default) or `"safe"` (Urdu-only letters swapped for plain Arabic ones, for fonts that would show a box `□`)
+- Optional `separator`: `"filler"` (default, `U+FFA0`), `"space"`, or `"none"`
 - `GET /api/health` → `{ "ok": true }`
 
 ## Project structure
