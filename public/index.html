@@ -3,233 +3,70 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>FF Urdu Name Converter — Urdu Nicknames for Free Fire, Perfectly Joined</title>
-<meta name="description" content="Convert your Urdu name into a Free Fire-ready nickname with properly joined Arabic-script letters. Type your name, copy the result, paste it in game. Free tool by TSUN Studio.">
-<meta name="theme-color" content="#0B1020">
+<title>FF Urdu Name — Urdu Nickname Converter for Free Fire</title>
+<meta name="description" content="Type your Urdu name, get a Free Fire nickname with properly joined letters. Free tool by TSUN Studio.">
+<meta name="theme-color" content="#000000">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&family=Noto+Naskh+Arabic:wght@400;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=8">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&family=JetBrains+Mono:wght@400;500&family=Noto+Naskh+Arabic:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css?v=9">
 </head>
 <body>
 
-<header class="site-header" id="siteHeader">
-  <div class="container header-inner">
-    <a class="brand" href="#top" aria-label="FF Urdu Name — home">
-      <span class="logo-mark" aria-hidden="true">FF</span>
-      <span class="brand-text">
-        <strong>FF URDU NAME</strong>
-        <small>TSUN STUDIO</small>
-      </span>
-    </a>
-    <nav class="nav-links" id="navLinks" aria-label="Main">
-      <a href="#converter">Converter</a>
-      <a href="#how">How It Works</a>
-      <a href="#api">API</a>
-    </nav>
-    <a class="btn btn-primary btn-sm header-cta" href="#converter">Start Converting</a>
-    <button class="nav-toggle" id="navToggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="navLinks">
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
-    </button>
-  </div>
+<header class="top">
+  <span class="brand">FF URDU NAME</span>
+  <span class="studio">TSUN STUDIO</span>
 </header>
 
-<main id="top">
+<main>
+  <h1>Urdu names,<br>joined for Free&nbsp;Fire.</h1>
+  <p class="lede">Free Fire draws nicknames left-to-right and splits Urdu letters apart. Type your name the normal way — this converts it into the joined form the game can display.</p>
 
-  <!-- ── Hero ─────────────────────────────────────────── -->
-  <section class="hero">
-    <div class="container hero-grid">
-      <div class="hero-copy">
-        <p class="eyebrow">Free Fire nickname tool · by TSUN Studio</p>
-        <h1>Your Urdu Name, <span class="grad">Perfectly Joined.</span></h1>
-        <p class="lede">Convert your Urdu name into a Free Fire-ready nickname with properly joined Arabic-script letters.</p>
-        <div class="hero-actions">
-          <a class="btn btn-primary btn-lg" href="#converter">Start Converting</a>
-          <a class="btn btn-ghost btn-lg" href="#how">How it works</a>
-        </div>
-        <p class="hero-note">Free · No sign-up · Works on Android &amp; desktop</p>
-      </div>
-
-      <aside class="process-card" aria-label="How the conversion works, in three steps">
-        <ol class="process-steps">
-          <li>
-            <span class="p-num">01</span>
-            <span class="p-body"><strong>Shape</strong><span>Every letter takes its correct joining form — initial, medial, final or isolated.</span></span>
-          </li>
-          <li>
-            <span class="p-num">02</span>
-            <span class="p-body"><strong>Order</strong><span>The name is stored in the visual order Free Fire draws, so nothing comes out reversed.</span></span>
-          </li>
-          <li>
-            <span class="p-num">03</span>
-            <span class="p-body"><strong>Join</strong><span>Words are linked with the hidden FF space and kept inside the character limit.</span></span>
-          </li>
-        </ol>
-        <div class="process-chips">
-          <span class="chip">Joined letters</span>
-          <span class="chip">Copy &amp; paste ready</span>
-          <span class="chip">Live conversion</span>
-        </div>
-      </aside>
+  <section class="step" aria-labelledby="inputLabel">
+    <div class="step-head">
+      <label class="step-label" id="inputLabel" for="nameInput"><span class="num">01</span> Your name</label>
+      <button class="text-btn" id="clearBtn" type="button">Clear</button>
     </div>
+    <textarea id="nameInput" dir="rtl" lang="ur" rows="2" placeholder="Type your Urdu name here…"
+      autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false"
+      aria-describedby="counter"></textarea>
+    <div class="input-foot">
+      <span class="hint">Urdu keyboard supported — type or paste.</span>
+      <span class="counter" id="counter"><strong id="charCount">0</strong> / <span id="charLimit">12</span></span>
+    </div>
+    <p class="counter-note" id="counterNote" aria-live="polite"></p>
   </section>
 
-  <!-- ── Converter ────────────────────────────────────── -->
-  <section class="section" id="converter">
-    <div class="container">
-      <div class="section-head">
-        <h2>Urdu Name Converter</h2>
-        <p>Type your name normally and get your converted nickname instantly.</p>
-      </div>
-
-      <div class="converter-grid">
-        <div class="card input-card">
-          <div class="card-label-row">
-            <label class="card-label" for="nameInput">Enter Your Urdu Name</label>
-            <button class="btn btn-ghost btn-xs" id="clearBtn" type="button">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 6h18M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2m2 0v14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V6"/></svg>
-              Clear
-            </button>
-          </div>
-          <textarea id="nameInput" dir="rtl" lang="ur" rows="2" placeholder="Type your Urdu name here…"
-            autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false"
-            aria-describedby="counterNote"></textarea>
-          <div class="input-foot">
-            <span class="input-hint">Urdu keyboard supported — type or paste.</span>
-            <span class="counter" id="counter" data-state="ok">
-              <strong id="charCount">0</strong><span class="counter-sep">/</span><span id="charLimit">12</span>
-              <span class="counter-note" id="counterNote">characters</span>
-            </span>
-          </div>
-        </div>
-
-        <div class="card output-card">
-          <div class="card-label-row">
-            <span class="card-label" id="outputLabel">Your Free Fire Nickname</span>
-            <span class="status-pill" id="statusPill" data-state="ready">Ready</span>
-          </div>
-          <div class="output-box" aria-labelledby="outputLabel">
-            <code id="outputText" lang="ur"></code>
-            <span class="output-placeholder" id="outputPlaceholder">Your converted nickname will appear here.</span>
-          </div>
-          <div class="output-actions">
-            <button class="btn btn-primary" id="copyBtn" type="button" disabled>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-              <span id="copyBtnLabel">Copy Nickname</span>
-            </button>
-            <button class="btn btn-ghost" id="selectBtn" type="button" disabled>Select All</button>
-          </div>
-          <p class="copy-note" id="copyNote" aria-live="polite"></p>
-        </div>
-      </div>
-
-      <div class="warnings" id="warnings" aria-live="polite"></div>
-
-      <div class="breakdown-wrap" id="breakdownWrap" hidden>
-        <div class="section-head left">
-          <h3>Letter-by-Letter Breakdown</h3>
-          <p>Every letter of your name, and the form it takes in the converted nickname.</p>
-        </div>
-        <div class="breakdown" id="breakdown"></div>
-      </div>
+  <section class="step" aria-labelledby="outputLabel">
+    <div class="step-head">
+      <span class="step-label" id="outputLabel"><span class="num">02</span> Free Fire nickname</span>
+      <span class="status" id="status">Ready</span>
     </div>
+    <div class="output-box">
+      <code id="outputText" lang="ur"></code>
+      <span class="output-placeholder" id="outputPlaceholder">Your converted nickname will appear here.</span>
+    </div>
+    <div class="warnings" id="warnings" aria-live="polite"></div>
+    <div class="actions">
+      <button class="copy-btn" id="copyBtn" type="button" disabled>Copy nickname</button>
+      <button class="text-btn" id="selectBtn" type="button" disabled>Select all</button>
+    </div>
+    <p class="copy-note" id="copyNote" aria-live="polite"></p>
   </section>
 
-  <!-- ── How it works ─────────────────────────────────── -->
-  <section class="section alt" id="how">
-    <div class="container">
-      <div class="section-head">
-        <h2>How It Works</h2>
-        <p>Why pasted Urdu names break in Free Fire — and how this converter fixes them.</p>
-      </div>
-      <div class="how-grid">
-        <article class="card how-card">
-          <span class="how-icon" aria-hidden="true">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
-          </span>
-          <h3>Urdu letters join</h3>
-          <p>In Urdu, most letters change shape depending on their neighbours. A letter at the start, middle or end of a word takes a different form in each position — that joining is what makes the script flow.</p>
-        </article>
-        <article class="card how-card">
-          <span class="how-icon" aria-hidden="true">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 12h4m-2-2v4m7-3h.01M18 13h.01M17.32 5H6.68a4 4 0 0 0-3.978 3.59L2 17a2 2 0 0 0 3.4 1.6L8 16h8l2.6 2.6A2 2 0 0 0 22 17l-.702-8.41A4 4 0 0 0 17.32 5Z"/></svg>
-          </span>
-          <h3>Free Fire draws left-to-right</h3>
-          <p>The game renders nicknames left-to-right and does not shape Urdu script. Paste a normal Urdu name and it appears reversed, with every letter split apart from the next.</p>
-        </article>
-        <article class="card how-card">
-          <span class="how-icon" aria-hidden="true">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3 4 7l4 4"/><path d="M4 7h16"/><path d="m16 21 4-4-4-4"/><path d="M20 17H4"/></svg>
-          </span>
-          <h3>We fix the order for you</h3>
-          <p>The converter picks each letter's correct joining form and stores the name in the exact visual order the game draws. Paste the result into Free Fire and it reads perfectly.</p>
-        </article>
-      </div>
+  <section class="step" id="breakdownWrap" hidden aria-labelledby="breakdownLabel">
+    <div class="step-head">
+      <span class="step-label" id="breakdownLabel"><span class="num">03</span> Letter by letter</span>
     </div>
+    <div id="breakdown"></div>
   </section>
-
-  <!-- ── API ──────────────────────────────────────────── -->
-  <section class="section" id="api">
-    <div class="container narrow">
-      <div class="section-head">
-        <h2>Developer API</h2>
-        <p>The same conversion the website uses, as a simple JSON endpoint.</p>
-      </div>
-
-      <div class="card api-card">
-        <div class="endpoint-row">
-          <span class="method-chip">POST</span>
-          <code class="endpoint">/api/convert</code>
-          <span class="endpoint-note">Content-Type: application/json</span>
-        </div>
-
-        <div class="code-block">
-          <div class="code-head">
-            <span>Request</span>
-            <button class="btn btn-ghost btn-xs copy-code" type="button" data-copy-target="reqCode">Copy</button>
-          </div>
-<pre><code id="reqCode"><span class="tok-p">{</span>
-  <span class="tok-k">"text"</span><span class="tok-p">:</span> <span class="tok-s">"your Urdu name"</span>
-<span class="tok-p">}</span></code></pre>
-        </div>
-
-        <div class="code-block">
-          <div class="code-head">
-            <span>Response</span>
-            <button class="btn btn-ghost btn-xs copy-code" type="button" data-copy-target="resCode">Copy</button>
-          </div>
-<pre><code id="resCode"><span class="tok-p">{</span>
-  <span class="tok-k">"output"</span><span class="tok-p">:</span> <span class="tok-s">"converted nickname"</span><span class="tok-p">,</span>
-  <span class="tok-k">"charCount"</span><span class="tok-p">:</span> <span class="tok-n">7</span><span class="tok-p">,</span>
-  <span class="tok-k">"limit"</span><span class="tok-p">:</span> <span class="tok-n">12</span><span class="tok-p">,</span>
-  <span class="tok-k">"overLimit"</span><span class="tok-p">:</span> <span class="tok-n">false</span><span class="tok-p">,</span>
-  <span class="tok-k">"words"</span><span class="tok-p">:</span> <span class="tok-p">[</span> <span class="tok-p">{</span> <span class="tok-k">"input"</span><span class="tok-p">:</span> <span class="tok-s">"..."</span><span class="tok-p">,</span> <span class="tok-k">"letters"</span><span class="tok-p">:</span> <span class="tok-p">[</span> <span class="tok-p">{</span> <span class="tok-k">"input"</span><span class="tok-p">:</span> <span class="tok-s">"..."</span><span class="tok-p">,</span> <span class="tok-k">"form"</span><span class="tok-p">:</span> <span class="tok-s">"final"</span><span class="tok-p">,</span> <span class="tok-k">"output"</span><span class="tok-p">:</span> <span class="tok-s">"..."</span> <span class="tok-p">}</span> <span class="tok-p">]</span> <span class="tok-p">}</span> <span class="tok-p">]</span><span class="tok-p">,</span>
-  <span class="tok-k">"warnings"</span><span class="tok-p">:</span> <span class="tok-p">[</span><span class="tok-p">]</span>
-<span class="tok-p">}</span></code></pre>
-        </div>
-
-        <p class="api-note">Optional parameters: <code>mode</code> (<code>urdu</code> or <code>safe</code>) and <code>separator</code> (<code>filler</code>, <code>space</code> or <code>none</code>). Health check: <code>GET /api/health</code>.</p>
-      </div>
-    </div>
-  </section>
-
 </main>
 
-<footer class="site-footer">
-  <div class="container footer-inner">
-    <a class="brand" href="#top" aria-label="FF Urdu Name — back to top">
-      <span class="logo-mark" aria-hidden="true">FF</span>
-      <span class="brand-text">
-        <strong>FF URDU NAME</strong>
-        <small>TSUN STUDIO</small>
-      </span>
-    </a>
-    <p class="footer-desc">A free tool that turns normal Urdu names into Free Fire nicknames with properly joined letters — no reversed, broken text.</p>
-    <p class="disclaimer">Not affiliated with Garena. Free Fire is a trademark of Garena. Always confirm your nickname change with a rename card in game.</p>
-    <p class="copyright">© 2026 TSUN Studio</p>
-  </div>
+<footer>
+  <p>Not affiliated with Garena. Free Fire is a trademark of Garena.</p>
+  <p>© 2026 TSUN Studio</p>
 </footer>
 
-<script src="app.js?v=8"></script>
+<script src="app.js?v=9"></script>
 </body>
 </html>

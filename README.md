@@ -95,7 +95,7 @@ Content-Type: application/json
 ├── lib/
 │   ├── convert.js         # the shaping / reversing engine
 │   └── forms.json         # letter → presentation forms, generated from Unicode data
-├── public/                # Premium dark frontend (Android + desktop): navy surfaces, violet→sky accents
+├── public/                # Minimal black & white one-page frontend (Android + desktop)
 │   ├── index.html
 │   ├── styles.css
 │   ├── app.js
@@ -124,11 +124,12 @@ See `deploy/nginx.conf.example` for the vhost (`ffurduname.tsunstudio.cyou` → 
 
 ## Design
 
-Premium dark gaming-utility UI: background `#0B1020`, surfaces `#121A2B` / `#182238`,
-violet `#8B5CF6` → sky `#38BDF8` accent gradient, Inter for Latin text,
-Noto Naskh Arabic for Urdu, JetBrains Mono for code. Mobile-first responsive
-(320px and up), two-column converter on desktop, letter-by-letter breakdown
-with per-form badges, character counter driven by the API's own limit.
+Minimal black & white, one page. Swiss/typographic direction: the type is
+the design — hairline rules instead of cards, generous negative space, no
+colour, no gradients, no shadows. Palette is strictly `#000`, `#fff` and
+greys. Inter for Latin, Noto Naskh Arabic for Urdu, JetBrains Mono for
+labels and the counter. The page is only: brand line, headline, converter
+(input → nickname → copy), letter-by-letter breakdown, footer.
 
 ## License
 
