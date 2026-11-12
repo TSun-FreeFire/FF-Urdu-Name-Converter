@@ -1,0 +1,12 @@
+{
+  "name": "ff-urdu-name",
+  "version": "1.0.0",
+  "description": "FF Urdu Name — makes Urdu nicknames that join correctly in Free Fire",
+  "private": true,
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node --test"
+  },
+  "engines": { "node": ">=18" }
+}
