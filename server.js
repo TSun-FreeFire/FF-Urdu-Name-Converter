@@ -53,7 +53,7 @@ const server = http.createServer((req, res) => {
     if (err) { res.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' }); return res.end('Not found'); }
     res.writeHead(200, {
       'Content-Type': MIME[path.extname(full)] || 'application/octet-stream',
-      'Cache-Control': full.endsWith('index.html') ? 'no-cache' : 'public, max-age=86400',
+      'Cache-Control': 'no-cache', // tiny site: never let browsers serve stale CSS/JS after a deploy
     });
     res.end(buf);
   });
