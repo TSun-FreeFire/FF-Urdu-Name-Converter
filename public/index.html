@@ -5,54 +5,64 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>FF Urdu Name — Joined Urdu Nicknames for Free Fire</title>
 <meta name="description" content="Type your Urdu name normally and get a Free Fire-ready nickname with the letters properly joined — no reversed, broken letters.">
-<meta name="theme-color" content="#170d08">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍫</text></svg>">
+<meta name="theme-color" content="#120803">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%23120803'/><text x='50' y='68' font-size='52' text-anchor='middle' fill='%23eda958' font-family='monospace' font-weight='bold'>@</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@400;600;700&family=JetBrains+Mono:wght@400;600;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
 
 <header class="nav">
   <div class="nav-inner">
-    <a class="brand" href="#"><span class="brand-mark">🍫</span> FF Urdu Name</a>
+    <a class="brand" href="#">FF_URDU_NAME<span class="brand-caret">▌</span></a>
     <nav class="nav-links">
       <a href="#converter">Converter</a>
       <a href="#how">How it works</a>
       <a href="#api">API</a>
     </nav>
-    <span class="nav-badge">by TSun Studio</span>
+    <span class="nav-badge">TSUN STUDIO</span>
   </div>
 </header>
 
-<main>
-  <section class="hero">
-    <div class="hero-chip">Free Fire nickname studio</div>
+<section class="hero">
+  <pre id="asciiField" class="ascii-field" aria-hidden="true"></pre>
+  <div class="hero-inner">
+    <p class="kicker">FREE FIRE · NICKNAME CONVERTER · PK</p>
     <h1>Your Urdu name.<br><span class="grad">Joined, not broken.</span></h1>
-    <p class="hero-sub">Free Fire shows Urdu names reversed, with every letter split apart.
-      Type your name the normal way — this tool rebuilds it with proper joining
-      letters, in the exact order the game needs.</p>
-  </section>
+    <p class="hero-sub">Free Fire draws nicknames left-to-right and never shapes Urdu script,
+      so pasted names come out reversed with every letter split apart. Type yours the normal
+      way — this rebuilds it with real joining letters, in the exact order the game needs.</p>
+    <a class="hero-cta" href="#converter">Start converting ↓</a>
+  </div>
+</section>
 
-  <section id="converter" class="card converter">
-    <label class="field-label" for="nameInput">Your name in Urdu</label>
-    <textarea id="nameInput" dir="rtl" lang="ur" rows="2" maxlength="200"
-      placeholder="Type your Urdu name here"></textarea>
-
-    <!-- Copy + result: directly under the input, visible above the keyboard -->
-    <div class="result-head">
-      <span class="field-label">Copy this into Free Fire</span>
-      <span id="countBadge" class="count-badge ok">0 / 12</span>
+<main>
+  <section id="converter" class="console">
+    <div class="console-bar" aria-hidden="true">
+      <span class="dotbtn"></span><span class="dotbtn"></span><span class="dotbtn"></span>
+      <span class="console-title">converter — ff-urdu-name</span>
+      <span class="console-status" id="consoleStatus">READY</span>
     </div>
-    <div class="result-box">
-      <code id="rawOutput" class="empty" dir="ltr">Your converted name will appear here</code>
-      <button id="copyBtn" class="copy-btn" type="button">Copy</button>
-    </div>
-    <ul id="warnings" class="warnings"></ul>
+    <div class="console-body">
+      <label class="field-label" for="nameInput">01 — Your name in Urdu</label>
+      <textarea id="nameInput" dir="rtl" lang="ur" rows="2" maxlength="200"
+        placeholder="Type your Urdu name here"></textarea>
 
-    <!-- Preview: also directly under the input -->
-    <div class="preview-grid">
+      <div class="result-head">
+        <span class="field-label">02 — Copy this into Free Fire</span>
+        <span id="countBadge" class="count-badge ok">0 / 12</span>
+      </div>
+      <div class="result-box">
+        <code id="rawOutput" class="empty" dir="ltr">Your converted name will appear here</code>
+        <button id="copyBtn" class="copy-btn" type="button">Copy</button>
+      </div>
+      <ul id="warnings" class="warnings"></ul>
+
+      <div class="result-head">
+        <span class="field-label">03 — Preview, as the game draws it</span>
+      </div>
       <div class="phone" aria-label="Phone preview">
         <div class="phone-screen">
           <div class="phone-head">PLAYER PROFILE</div>
@@ -67,59 +77,74 @@
           <div class="phone-btn">BOOYAH!</div>
         </div>
       </div>
-    </div>
-    <p class="preview-note">The preview is drawn letter-by-letter, exactly like Free Fire renders a nickname.
-      Words are always joined with the game's hidden FF space, and your name always uses the original
-      Urdu letters in their joined forms. Don't retype the result, and don't worry if it looks flipped
-      in some apps — phones shape Urdu right-to-left, the game doesn't. Always trust the game's own preview.</p>
-  </section>
+      <p class="preview-note">Drawn letter-by-letter, strictly left-to-right — the way Free Fire renders a
+        nickname. Words always use the hidden FF space, letters are always the original Urdu ones in
+        their joined forms. Don't retype the result; if it looks flipped in another app, that's the
+        app shaping Urdu right-to-left. Trust the game's own preview.</p>
 
-  <section class="card breakdown-card">
-    <h2>Letter-by-letter</h2>
-    <p class="section-sub">Every letter is picked in the form its position needs — starting, middle, end, or standing alone.</p>
-    <div id="breakdown"><p class="empty-note">Start typing above — the breakdown will appear here.</p></div>
-    <div class="legend">
-      <span><i class="dot initial"></i>Initial — starts a joined run</span>
-      <span><i class="dot medial"></i>Medial — joins both sides</span>
-      <span><i class="dot final"></i>Final — ends a joined run</span>
-      <span><i class="dot isolated"></i>Isolated — stands alone</span>
-    </div>
-  </section>
-
-  <section id="how" class="tiles">
-    <div class="card tile">
-      <div class="tile-icon">🔀</div>
-      <h3>1 · Reversed for the game</h3>
-      <p>Urdu is read right-to-left, Free Fire draws left-to-right. The output is stored in visual order, so the game draws it the way you read it.</p>
-    </div>
-    <div class="card tile">
-      <div class="tile-icon">🔗</div>
-      <h3>2 · Real joining forms</h3>
-      <p>Photoshop-style exports give every letter its lone form — that's the broken, split-letter look. Here each letter gets its true initial, medial or final shape, so words actually join.</p>
-    </div>
-    <div class="card tile">
-      <div class="tile-icon">✈️</div>
-      <h3>3 · Some gaps are correct</h3>
-      <p>Letters like alif and zay never join to the letter after them. A gap after one of those is real Urdu, not a bug — everything that should join, joins.</p>
+      <div class="result-head breakdown-head">
+        <span class="field-label">04 — Letter-by-letter</span>
+      </div>
+      <div id="breakdown"><p class="empty-note">Start typing above — each letter and the form it takes will be listed here.</p></div>
+      <div class="legend">
+        <span><i class="dot initial"></i>Initial — starts a run</span>
+        <span><i class="dot medial"></i>Medial — joins both sides</span>
+        <span><i class="dot final"></i>Final — ends a run</span>
+        <span><i class="dot isolated"></i>Isolated — stands alone</span>
+      </div>
     </div>
   </section>
 
-  <section id="api" class="card api-card">
-    <h2>API</h2>
-    <p class="section-sub">The same converter runs on the server — use it from any bot or app.</p>
-    <pre class="api-code">POST /api/convert
-{ "text": "&lt;your urdu name&gt;" }
+  <section id="how" class="how">
+    <h2><span class="h2-tag">HOW</span> Why this works</h2>
+    <div class="how-row">
+      <span class="how-num">01</span>
+      <div>
+        <h3>Stored in visual order</h3>
+        <p>Urdu reads right-to-left; the game draws left-to-right. The converted name is stored in the
+          order it should be <em>seen</em>, so the game draws it correctly without knowing any Urdu.</p>
+      </div>
+    </div>
+    <div class="how-row">
+      <span class="how-num">02</span>
+      <div>
+        <h3>Real joining forms, per letter</h3>
+        <p>Every Arabic-script letter has up to four shapes. Photoshop-style exports use the lone shape
+          for all of them — that's the split, broken look. Here each letter is given the initial, medial
+          or final shape its position in the word actually requires.</p>
+      </div>
+    </div>
+    <div class="how-row">
+      <span class="how-num">03</span>
+      <div>
+        <h3>Some gaps are correct Urdu</h3>
+        <p>Letters like alif and zay never join to the letter after them. A gap after one of those is not
+          a bug — it's how the word is written. Everything that should join, joins.</p>
+      </div>
+    </div>
+  </section>
 
-→ { "output": "&lt;converted name&gt;", "charCount": 12, "overLimit": false, … }</pre>
+  <section id="api" class="api">
+    <h2><span class="h2-tag">API</span> Use it anywhere</h2>
+    <p class="section-sub">The same converter runs on the server. One endpoint, no key, no signup.</p>
+    <pre class="api-code"><span class="api-dim">$</span> curl -X POST https://ffurduname.tsunstudio.cyou/api/convert \
+    -H 'Content-Type: application/json' \
+    -d '{ "text": "&lt;your urdu name&gt;" }'
+
+<span class="api-dim">→</span> { "output": "&lt;converted name&gt;", "charCount": 12,
+    "limit": 12, "overLimit": false, "words": [ … ], "warnings": [] }</pre>
   </section>
 
   <footer>
-    <p>Made with care by <strong>TSun Studio</strong> · FF Urdu Name</p>
+    <pre class="ascii-sig" aria-hidden="true">┌─ TSUN STUDIO ─────────────────┐
+│  FF_URDU_NAME · MADE IN PK    │
+└───────────────────────────────┘</pre>
     <p class="fineprint">Not affiliated with Garena. Free Fire is a trademark of Garena.</p>
   </footer>
 </main>
 
 <button id="stickyCopy" class="sticky-copy" type="button">Copy FF name</button>
+<script src="/ascii.js"></script>
 <script src="/app.js"></script>
 </body>
 </html>

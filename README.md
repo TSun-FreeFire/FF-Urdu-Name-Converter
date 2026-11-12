@@ -96,7 +96,7 @@ Content-Type: application/json
 ├── lib/
 │   ├── convert.js         # the shaping / reversing engine
 │   └── forms.json         # letter → presentation forms, generated from Unicode data
-├── public/                # Dark-chocolate, Apple-rounded responsive frontend (Android + desktop)
+├── public/                # Dark-chocolate terminal frontend (Android + desktop) with a generative ASCII plasma hero
 │   ├── index.html
 │   ├── styles.css
 │   └── app.js
@@ -121,6 +121,14 @@ See `deploy/nginx.conf.example` for the vhost (`ffurduname.tsunstudio.cyou` → 
 
 - Don't retype the output — copy-paste it. Some apps will *display* it flipped because they shape Urdu right-to-left; the stored order is what Free Fire needs, so always trust the game's own preview.
 - Vowel marks (zabar, zer, pesh…) are stripped — FF nicknames don't carry them.
+
+## Credits
+
+The hero's animated ASCII field follows the **ascii-animation** skill from
+[iart-ai/web-animation-skills](https://github.com/iart-ai/web-animation-skills/tree/main/skills/ascii-animation):
+brightness ramp ` .:-=+*#%@`, layered-sine plasma, character-cell aspect correction,
+a deliberately throttled 18 fps loop, a `?t=N` deterministic seek frame, and a static
+frame under `prefers-reduced-motion`.
 
 ## License
 
