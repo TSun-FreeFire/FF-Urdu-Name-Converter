@@ -95,10 +95,11 @@ Content-Type: application/json
 ├── lib/
 │   ├── convert.js         # the shaping / reversing engine
 │   └── forms.json         # letter → presentation forms, generated from Unicode data
-├── public/                # Dark-chocolate terminal frontend (Android + desktop) with a generative ASCII plasma hero
+├── public/                # Premium dark frontend (Android + desktop): navy surfaces, violet→sky accents
 │   ├── index.html
 │   ├── styles.css
-│   └── app.js
+│   ├── app.js
+│   └── preview.png        # comparison image used above
 ├── test/convert.test.js   # node:test suite incl. verified sample names
 ├── tools/generate-forms.py# regenerates lib/forms.json from unicodedata
 ├── ecosystem.config.js    # PM2 process file
@@ -121,13 +122,13 @@ See `deploy/nginx.conf.example` for the vhost (`ffurduname.tsunstudio.cyou` → 
 - Don't retype the output — copy-paste it. Some apps will *display* it flipped because they shape Urdu right-to-left; the stored order is what Free Fire needs, so always trust the game's own preview.
 - Vowel marks (zabar, zer, pesh…) are stripped — FF nicknames don't carry them.
 
-## Credits
+## Design
 
-The hero's animated ASCII field follows the **ascii-animation** skill from
-[iart-ai/web-animation-skills](https://github.com/iart-ai/web-animation-skills/tree/main/skills/ascii-animation):
-brightness ramp ` .:-=+*#%@`, layered-sine plasma, character-cell aspect correction,
-a deliberately throttled 18 fps loop, a `?t=N` deterministic seek frame, and a static
-frame under `prefers-reduced-motion`.
+Premium dark gaming-utility UI: background `#0B1020`, surfaces `#121A2B` / `#182238`,
+violet `#8B5CF6` → sky `#38BDF8` accent gradient, Inter for Latin text,
+Noto Naskh Arabic for Urdu, JetBrains Mono for code. Mobile-first responsive
+(320px and up), two-column converter on desktop, letter-by-letter breakdown
+with per-form badges, character counter driven by the API's own limit.
 
 ## License
 

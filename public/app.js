@@ -1,215 +1,255 @@
 'use strict';
-/* ── ASCII hero field ─────────────────────────────────────────────
-   Per the ascii-animation skill: <pre> + textContent, frame(time)
-   with injected time, throttled to a deliberate retro 18 fps,
-   ?t=N renders one deterministic frame, prefers-reduced-motion
-   gets a single static frame, and the loop pauses off-screen.   */
-(function initAscii() {
-  const pre = document.getElementById('asciiField');
-  const hero = pre.parentElement;
-  if (!pre || typeof AsciiField === 'undefined') return;
+/* FF Urdu Name — converter UI.
+   Talks to POST /api/convert with { text, mode: 'urdu', separator: 'filler' }
+   and renders exactly what the API returns: output, charCount, limit,
+   overLimit, words (letter-by-letter forms) and warnings.
+   All user/API text is rendered with textContent — never as HTML. */
 
-  const measure = document.createElement('canvas').getContext('2d');
-  measure.font = '11px "JetBrains Mono", monospace';
-  const charWidth = Math.max(5, measure.measureText('M').width || 6.7);
+const $ = (s) => document.querySelector(s);
 
-  let grid = { cols: 0, rows: 0 };
-  function resize() {
-    const r = hero.getBoundingClientRect();
-    grid = AsciiField.gridFor(r.width, r.height, charWidth);
+const input = $('#nameInput');
+const outputText = $('#outputText');
+const outputPlaceholder = $('#outputPlaceholder');
+const copyBtn = $('#copyBtn');
+const copyBtnLabel = $('#copyBtnLabel');
+const selectBtn = $('#selectBtn');
+const clearBtn = $('#clearBtn');
+const copyNote = $('#copyNote');
+const statusPill = $('#statusPill');
+const counter = $('#counter');
+const charCount = $('#charCount');
+const charLimit = $('#charLimit');
+const counterNote = $('#counterNote');
+const warningsBox = $('#warnings');
+const breakdownWrap = $('#breakdownWrap');
+const breakdownBox = $('#breakdown');
+
+let lastOutput = '';
+let requestSeq = 0;
+let debounceTimer = null;
+let copyResetTimer = null;
+
+const WARN_ICON = '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>';
+const ERR_ICON = '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg>';
+
+function setStatus(state, label) {
+  statusPill.dataset.state = state;
+  statusPill.textContent = '';
+  if (state === 'working') {
+    const spin = document.createElement('span');
+    spin.className = 'spinner';
+    spin.setAttribute('aria-hidden', 'true');
+    statusPill.appendChild(spin);
   }
-  resize();
-  let resizeTimer = null;
-  addEventListener('resize', () => {
-    clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(() => { resize(); draw(lastT); }, 200);
-  });
+  statusPill.appendChild(document.createTextNode(label));
+}
 
-  let lastT = 0;
-  function draw(t) {
-    lastT = t;
-    if (grid.cols) pre.textContent = AsciiField.frame(grid.cols, grid.rows, t);
+function setCounter(count, limit, overLimit) {
+  charCount.textContent = String(count);
+  charLimit.textContent = String(limit);
+  if (overLimit || count > limit) {
+    counter.dataset.state = 'over';
+    counterNote.textContent = 'over the Free Fire limit — shorten the name';
+  } else if (count >= limit - 2 && count > 0) {
+    counter.dataset.state = 'warn';
+    counterNote.textContent = 'characters — almost at the limit';
+  } else {
+    counter.dataset.state = 'ok';
+    counterNote.textContent = 'characters';
   }
+}
 
-  const seek = new URLSearchParams(location.search).get('t');
-  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+function showAlert(kind, message) {
+  const div = document.createElement('div');
+  div.className = 'alert ' + (kind === 'error' ? 'alert-error' : 'alert-warn');
+  div.setAttribute('role', 'alert');
+  div.innerHTML = kind === 'error' ? ERR_ICON : WARN_ICON; // static icon only
+  const span = document.createElement('span');
+  span.textContent = message;
+  div.appendChild(span);
+  warningsBox.appendChild(div);
+}
 
-  if (seek !== null) {                       // seek harness: one frozen frame
-    draw(parseFloat(seek));
-    window.__ready = true;
-    return;
-  }
-  if (reduced) {                             // reduced motion: static frame
-    draw(1400);
-    window.__ready = true;
-    return;
-  }
+function renderBreakdown(words) {
+  breakdownBox.textContent = '';
+  if (!words || !words.length) { breakdownWrap.hidden = true; return; }
+  words.forEach((word, i) => {
+    const group = document.createElement('div');
+    group.className = 'word-group';
 
-  const FRAME_MS = 1000 / 18;                // deliberate retro throttle
-  let raf = null, lastDraw = 0, visible = true, onScreen = true;
+    const head = document.createElement('div');
+    head.className = 'word-head';
+    const label = document.createElement('span');
+    label.className = 'w-label';
+    label.textContent = 'Word ' + (i + 1);
+    const orig = document.createElement('span');
+    orig.className = 'w-original';
+    orig.setAttribute('lang', 'ur');
+    orig.textContent = word.input || '';
+    head.append(label, orig);
+    group.appendChild(head);
 
-  function loop(now) {
-    raf = requestAnimationFrame(loop);
-    if (!visible || !onScreen) return;
-    if (now - lastDraw < FRAME_MS) return;
-    lastDraw = now;
-    draw(now);
-  }
-  function start() { if (raf === null) raf = requestAnimationFrame(loop); }
-  function stop() { if (raf !== null) cancelAnimationFrame(raf); raf = null; }
-
-  document.addEventListener('visibilitychange', () => {
-    visible = !document.hidden;
-    if (visible) { lastDraw = 0; start(); }
-  });
-  if ('IntersectionObserver' in window) {
-    new IntersectionObserver((e) => { onScreen = e[0].isIntersecting; }, { threshold: 0 }).observe(hero);
-  }
-  draw(0);
-  start();
-  window.__ready = true;
-})();
-
-/* ── Converter ──────────────────────────────────────────────────── */
-(function initConverter() {
-  // Fixed by design: original Urdu letters in their joined forms,
-  // words always joined with the hidden FF space.
-  const MODE = 'urdu';
-  const SEPARATOR = 'filler';
-  const $ = (s) => document.querySelector(s);
-
-  const input = $('#nameInput');
-  const rawOutput = $('#rawOutput');
-  const countBadge = $('#countBadge');
-  const warningsEl = $('#warnings');
-  const breakdownEl = $('#breakdown');
-  const statusEl = $('#consoleStatus');
-
-  let lastOutput = '';
-  let debounce = null;
-  let spinner = null;
-
-  const SPINNER = ['|', '/', '—', '\\'];
-  function setBusy(busy) {
-    if (busy) {
-      statusEl.textContent = 'WORKING ';
-      statusEl.classList.add('busy');
-      let i = 0;
-      const spinEl = document.createElement('span');
-      statusEl.appendChild(spinEl);
-      spinEl.textContent = SPINNER[0];
-      spinner = setInterval(() => { spinEl.textContent = SPINNER[++i % SPINNER.length]; }, 100);
-    } else {
-      clearInterval(spinner);
-      spinner = null;
-      statusEl.textContent = 'READY';
-      statusEl.classList.remove('busy');
-    }
-  }
-
-  input.addEventListener('input', () => {
-    clearTimeout(debounce);
-    debounce = setTimeout(convert, 140);
-  });
-
-  async function convert() {
-    setBusy(true);
-    try {
-      const res = await fetch('/api/convert', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ text: input.value, mode: MODE, separator: SEPARATOR }),
-      });
-      if (!res.ok) throw new Error('bad response');
-      render(await res.json());
-    } catch {
-      rawOutput.textContent = 'Converter is unreachable — check your connection and reload.';
-      rawOutput.classList.remove('empty');
-    } finally {
-      setBusy(false);
-    }
-  }
-
-  function render(r) {
-    lastOutput = r.output;
-    if (r.output) {
-      rawOutput.textContent = r.output;
-      rawOutput.classList.remove('empty');
-    } else {
-      rawOutput.textContent = 'Your converted name will appear here';
-      rawOutput.classList.add('empty');
-    }
-
-    countBadge.textContent = `${r.charCount} / ${r.limit}`;
-    countBadge.className = 'count-badge ' + (r.overLimit ? 'over' : 'ok');
-
-    warningsEl.innerHTML = '';
-    for (const w of r.warnings) {
-      const li = document.createElement('li');
-      li.textContent = '⚠️ ' + w;
-      warningsEl.appendChild(li);
-    }
-
-    breakdownEl.innerHTML = '';
-    if (!r.words.length) {
-      const p = document.createElement('p');
-      p.className = 'empty-note';
-      p.textContent = 'Start typing above — each letter and the form it takes will be listed here.';
-      breakdownEl.appendChild(p);
-      return;
-    }
-    for (const word of r.words) {
-      const row = document.createElement('div');
-      row.className = 'word-row';
-      const inw = document.createElement('span');
-      inw.className = 'word-in';
-      inw.setAttribute('dir', 'rtl');
-      inw.textContent = word.input;
+    const chips = document.createElement('div');
+    chips.className = 'letter-chips';
+    (word.letters || []).forEach((letter) => {
+      const chip = document.createElement('span');
+      chip.className = 'letter-chip';
+      const lo = document.createElement('span');
+      lo.className = 'l-original';
+      lo.setAttribute('lang', 'ur');
+      lo.textContent = letter.input || '';
       const arrow = document.createElement('span');
-      arrow.className = 'word-arrow';
+      arrow.className = 'l-arrow';
       arrow.textContent = '→';
-      const out = document.createElement('code');
-      out.className = 'word-out';
-      out.textContent = word.output;
-      row.append(inw, arrow, out);
+      const lc = document.createElement('span');
+      lc.className = 'l-converted';
+      lc.setAttribute('lang', 'ur');
+      lc.textContent = letter.output || '';
+      const badge = document.createElement('span');
+      badge.className = 'form-badge form-' + (letter.form || 'isolated');
+      badge.textContent = letter.form || '';
+      chip.append(lo, arrow, lc, badge);
+      chips.appendChild(chip);
+    });
+    group.appendChild(chips);
+    breakdownBox.appendChild(group);
+  });
+  breakdownWrap.hidden = false;
+}
 
-      const chips = document.createElement('div');
-      chips.className = 'letter-chips';
-      for (const l of word.letters) {
-        const c = document.createElement('span');
-        c.className = 'lchip';
-        const dot = document.createElement('i');
-        dot.className = 'dot ' + (l.form === 'kept' ? 'isolated' : l.form);
-        const b = document.createElement('b');
-        b.textContent = l.input;
-        const label = document.createElement('span');
-        label.textContent = l.form === 'kept' ? 'kept as-is' : l.form;
-        c.append(dot, b, label);
-        chips.appendChild(c);
-      }
-      row.appendChild(chips);
-      breakdownEl.appendChild(row);
-    }
+function resetResults() {
+  lastOutput = '';
+  outputText.textContent = '';
+  outputPlaceholder.style.display = '';
+  copyBtn.disabled = true;
+  selectBtn.disabled = true;
+  copyNote.textContent = '';
+  warningsBox.textContent = '';
+  breakdownBox.textContent = '';
+  breakdownWrap.hidden = true;
+  setCounter(0, Number(charLimit.textContent) || 12, false);
+  setStatus('ready', 'Ready');
+}
+
+async function convert() {
+  const text = input.value;
+  const seq = ++requestSeq;
+
+  if (!text.trim()) { resetResults(); return; }
+
+  setStatus('working', 'Converting');
+  try {
+    const res = await fetch('/api/convert', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ text, mode: 'urdu', separator: 'filler' }),
+    });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const data = await res.json();
+    if (seq !== requestSeq) return; // a newer input already won
+
+    lastOutput = data.output || '';
+    outputText.textContent = lastOutput;
+    outputPlaceholder.style.display = lastOutput ? 'none' : '';
+    copyBtn.disabled = !lastOutput;
+    selectBtn.disabled = !lastOutput;
+    setCounter(data.charCount ?? [...lastOutput].length, data.limit ?? 12, !!data.overLimit);
+    setStatus('done', 'Converted');
+
+    warningsBox.textContent = '';
+    (data.warnings || []).forEach((w) => showAlert('warn', w));
+    renderBreakdown(data.words);
+  } catch (err) {
+    if (seq !== requestSeq) return;
+    setStatus('error', 'Error');
+    warningsBox.textContent = '';
+    showAlert('error', 'Could not reach the converter. Check your connection and try again.');
   }
+}
 
-  async function copyOutput(btn) {
-    if (!lastOutput) { input.focus(); return; }
-    const label = btn.textContent;
+function scheduleConvert() {
+  clearTimeout(debounceTimer);
+  debounceTimer = setTimeout(convert, 250);
+}
+
+async function copyText(text) {
+  if (navigator.clipboard && window.isSecureContext) {
+    await navigator.clipboard.writeText(text);
+    return;
+  }
+  const ta = document.createElement('textarea');
+  ta.value = text;
+  ta.setAttribute('readonly', '');
+  ta.style.position = 'fixed';
+  ta.style.opacity = '0';
+  document.body.appendChild(ta);
+  ta.select();
+  document.execCommand('copy');
+  ta.remove();
+}
+
+copyBtn.addEventListener('click', async () => {
+  if (!lastOutput) return;
+  try {
+    await copyText(lastOutput);
+    copyBtnLabel.textContent = 'Copied Successfully';
+    copyNote.textContent = 'Copied — now paste it as your nickname in Free Fire.';
+    clearTimeout(copyResetTimer);
+    copyResetTimer = setTimeout(() => {
+      copyBtnLabel.textContent = 'Copy Nickname';
+    }, 1800);
+  } catch (err) {
+    copyNote.textContent = 'Copy failed — use Select All and copy manually.';
+  }
+});
+
+selectBtn.addEventListener('click', () => {
+  if (!lastOutput) return;
+  const range = document.createRange();
+  range.selectNodeContents(outputText);
+  const sel = window.getSelection();
+  sel.removeAllRanges();
+  sel.addRange(range);
+  copyNote.textContent = 'Selected — press Copy Nickname or Ctrl+C.';
+});
+
+clearBtn.addEventListener('click', () => {
+  input.value = '';
+  requestSeq++; // ignore any in-flight response
+  resetResults();
+  input.focus();
+});
+
+input.addEventListener('input', scheduleConvert);
+input.addEventListener('paste', () => setTimeout(convert, 0));
+
+/* ── Mobile navigation ─────────────────────────────────── */
+const header = $('#siteHeader');
+const navToggle = $('#navToggle');
+navToggle.addEventListener('click', () => {
+  const open = header.classList.toggle('menu-open');
+  navToggle.setAttribute('aria-expanded', String(open));
+  navToggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+});
+document.querySelectorAll('.nav-links a').forEach((a) => {
+  a.addEventListener('click', () => {
+    header.classList.remove('menu-open');
+    navToggle.setAttribute('aria-expanded', 'false');
+  });
+});
+
+/* ── API section copy buttons ──────────────────────────── */
+document.querySelectorAll('.copy-code').forEach((btn) => {
+  btn.addEventListener('click', async () => {
+    const target = document.getElementById(btn.dataset.copyTarget);
+    if (!target) return;
     try {
-      await navigator.clipboard.writeText(lastOutput);
-    } catch {
-      const ta = document.createElement('textarea');
-      ta.value = lastOutput;
-      ta.style.position = 'fixed'; ta.style.opacity = '0';
-      document.body.appendChild(ta);
-      ta.select();
-      document.execCommand('copy');
-      ta.remove();
-    }
-    btn.textContent = 'Copied ✓';
-    setTimeout(() => { btn.textContent = label; }, 1600);
-  }
-  $('#copyBtn').addEventListener('click', (e) => copyOutput(e.currentTarget));
+      await copyText(target.textContent);
+      const old = btn.textContent;
+      btn.textContent = 'Copied';
+      setTimeout(() => { btn.textContent = old; }, 1500);
+    } catch (err) { /* clipboard unavailable — text stays selectable */ }
+  });
+});
 
-  convert();
-})();
+resetResults();
