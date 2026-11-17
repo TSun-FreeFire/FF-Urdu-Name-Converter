@@ -196,3 +196,13 @@ footer p{margin:0;font-size:12.5px;color:var(--grey-2)}
 .cta-link{display:inline-flex;align-items:center;text-decoration:none !important}
 .guide a.cta-link{color:var(--black)}
 .guide a.cta-link:hover{color:var(--white)}
+
+/* ── Names page: ruled rows, plain label + text copy button ── */
+.name-list{margin:0 0 8px}
+.name-row{
+  display:flex;align-items:center;justify-content:space-between;gap:16px;
+  padding:10px 0;border-bottom:1px solid var(--line-soft);
+}
+.name-row:last-child{border-bottom:0}
+.name-ur{font-family:var(--urdu);font-size:22px;line-height:1.6;color:var(--white)}
+.name-copy{flex:none;font-size:13.5px}
