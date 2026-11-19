@@ -51,7 +51,13 @@ const server = http.createServer((req, res) => {
   const full = path.join(PUBLIC, file);
   if (!full.startsWith(PUBLIC)) { res.writeHead(403); return res.end('Forbidden'); }
   fs.readFile(full, (err, buf) => {
-    if (err) { res.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' }); return res.end('Not found'); }
+    if (err) {
+      return fs.readFile(path.join(PUBLIC, '404.html'), (e2, page) => {
+        if (e2) { res.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' }); return res.end('Not found'); }
+        res.writeHead(404, { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-cache' });
+        return res.end(page);
+      });
+    }
     res.writeHead(200, {
       'Content-Type': MIME[path.extname(full)] || 'application/octet-stream',
       'Cache-Control': 'no-cache', // tiny site: never let browsers serve stale CSS/JS after a deploy
